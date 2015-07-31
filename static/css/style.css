@@ -18,6 +18,12 @@
 	display: none;
 }
 
+.ridershipTableContainer {
+	min-height: 415px;
+}
+
+/* Station Listing */
+
 .stationListingTable .line-icon {
 	width: 20px;
 	height: 20px;
