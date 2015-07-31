@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8"> 
+<head>
+	<title>CTA Station Ridership</title>
+	<script src="../common/jquery/dist/jquery.js"></script>
+	<script src="../common/bootstrap/dist/js/bootstrap.js"></script>
+	<script src="../common/underscore/underscore.js"></script>
+	<script src="../common/mustache/mustache.js"></script>
+	<script src="build/js/StationAnalysis.min.js"></script>
+	<script src="build/js/StationLocationWidget.min.js"></script>
+	<script src="init.js"></script>
+	<link rel="stylesheet" type="text/css" href="../common/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="build/css/style.min.css">
+	<script src="../common/numeral/numeral.js"></script>
+	<script id="ridershipTemplate" type="x-tmpl-mustache">
+		<table class="ridershipTable table table-striped table-bordered table-hover table-responsive">
+			<tr class="station_listing_header">
+				<td class="ridership_rank_header">Rank</td>
+				<td class="ridership_station_header sorting_header">Station Name<span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></td>
+				<td class="ridership_rides_header sorting_header current_sort">Total Rides<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></td>
+			</tr>
+			{{#ridershipTable}}
+			<tr class="individual-station-listing">
+				<td>{{#count}}{{/count}}</td>
+				<td class="station_name">{{name}}</td>
+				<td class="total_rides">{{ridesWithSeparator}}</td>
+			</tr>
+			{{/ridershipTable}}
+		</table>
+	</script>
+	<script id="stationRidershipNavTemplate" type="x-tmpl-mustache">
+	  	<ul class="pagination">
+	    	<li class="previous-nav ridership-end-button ridership-nav-button"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+				{{#pages}}
+				<li class="page-{{.}} ridership-page-button ridership-nav-button"><a href="#"><span class="page-number">{{.}}</span><span class="sr-only">Page {{.}}</span></a></li>
+				{{/pages}}
+			<li class="next-nav ridership-end-button ridership-nav-button"><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+		</ul>
+	</script>
+	<script id="stationListingTemplate" type="x-tmpl-mustache">
+		<table class="stationListingTable table table-striped table-bordered table-hover table-responsive">
+			<tr class="station_listing_header">
+				<td>Station Name</td>
+				<td>Lines Served</td>
+				<td>Location</td>
+			</tr>
+			{{#stationListing}}
+			<tr class="individual-station-listing">
+				<td class="station_name">{{station_descriptive_name}}</td>
+				<td class="station_lines">{{#lines}}<span class="line-icon line-color-{{.}}" data-toggle="tooltip" data-placement="top" title="{{.}}"></span>{{/lines}}</td>
+
+				<td class="station_location">
+					<a target="_blank" href="https://www.google.com/maps/place/{{location.latitude}},{{location.longitude}}">{{location.latitude}}, {{location.longitude}}</a>
+				</td>
+			</tr>
+			{{/stationListing}}
+		</table>
+	</script>
+</head>
+<body>
+	<div class="container">
+		<h1 class="text-center">CTA Station Ridership 2014</h1>
+		<div class="ridershipWrapper" id="table-1-ridership">
+			<div class="ridershipTableContainer">
+				<div class="loading">
+					<div class="inner">
+						<img src="static/spinner.gif" class="center-block"/>
+						<p class="center-block text-center">Loading...</p>
+					</div>	
+				</div>
+			</div>
+			<nav class="ridershipNavigation"></nav>
+		</div>
+		<h1 class="text-center">CTA Stations</h1>
+		<div class="stationListingWrapper">
+			<div class="loading">
+				<div class="inner">
+					<img src="static/spinner.gif" class="center-block"/>
+					<p class="center-block text-center">Loading...</p>
+				</div>	
+			</div>
+		</div>
+	</div>
+</body>
+</html>
