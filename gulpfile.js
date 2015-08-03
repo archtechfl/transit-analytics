@@ -9,7 +9,7 @@ var DEST = 'build/';
 
 gulp.task('minify-scripts', function() {
   return gulp.src('scripts/*.js')
-    // This will minify and rename to foo.min.js
+    .pipe(gulp.dest(DEST + "js"))
     .pipe(uglify())
     .pipe(rename({ extname: '.min.js' }))
     .pipe(gulp.dest(DEST + "js"));
@@ -24,11 +24,14 @@ gulp.task('minify-css', function() {
 });
 
 gulp.task('watch-scripts', function () {
-   gulp.watch('static/*.js', ['minify-scripts']);
+   gulp.watch('scripts/*.js', ['minify-scripts']);
 });
 
-// Task - 'Gulp' Command in terminal
-gulp.task('default', ['minify-scripts','minify-css','watch-scripts'],
+gulp.task('watch-css', function () {
+   gulp.watch('static/css/*.css', ['minify-css']);
+});
+
+gulp.task('default', ['minify-scripts','minify-css','watch-scripts','watch-css'],
     function () {
 });
 

@@ -15,3 +15,11 @@ Create a listing of stations with the lines serving them
 #### Phase 3
 
 Take the existing listings and paginate the results
+
+#### Phase 4
+
+Automate JS and CSS minification along with enabling pagination control
+
+#### Phase 5
+
+Create separate pagination utility
