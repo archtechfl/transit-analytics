@@ -235,11 +235,14 @@ StationRidershipWidget.prototype.getPage = function(totalPages) {
     var total,
         self,
         allPageNumberSelector,
-        counterStart;
+        currentPageSelector,
+        activeSelector;
 
     total = totalPages;
     self = this;
     allPageNumberSelector = ".ridershipNavigation .ridership-page-button";
+    activeSelector = allPageNumberSelector + ".active";
+    currentPageSelector = activeSelector + " .page-number";
     // Listeners for navigation bar
     $(".ridershipNavigation").on("click", ".ridership-nav-button", function (event){
         event.preventDefault();
@@ -247,7 +250,11 @@ StationRidershipWidget.prototype.getPage = function(totalPages) {
         var isButton,
             isActive,
             pageSelected,
-            prevCheck;
+            prevCheck,
+            currentPage,
+            upcomingPage,
+            counterStart,
+            isEnabled;
         // Check if end button or number
         isButton = $(event.currentTarget).hasClass("ridership-end-button");
         isActive = $(event.currentTarget).hasClass("active");
@@ -263,10 +270,28 @@ StationRidershipWidget.prototype.getPage = function(totalPages) {
             // re-render table with next page
             self.renderTable(self.paginatedStorage[pageSelected], pageSelected, total, counterStart);
             self.onSort();
+            // End Page Button condition
         } else {
-            // Code is executed if the navigation button pressed is the prev or next button
-            prevCheck = $(event.currentTarget).hasClass("previous-nav");
-        }
-
+            // Don't execute the pagination code if the next/previous button is disabled
+            isDisabled = $(event.currentTarget).hasClass("disabled");
+            if (!isDisabled){
+                // Code is executed if the navigation button pressed is the prev or next button
+                prevCheck = $(event.currentTarget).hasClass("previous-nav");
+                currentPage = Number($(currentPageSelector).text());
+                // Remove active class from current page selector once identified
+                $(activeSelector).removeClass("active");
+                if (prevCheck){
+                    // If the previous button is pressed, run this
+                    upcomingPage = currentPage - 1;
+                } else {
+                    // If the previous button was not pressed, then next button is assumed
+                    upcomingPage = currentPage + 1;
+                }
+                // Render the upcoming page once it has been identified
+                counterStart = ((upcomingPage - 1) * self.pageSize) + 1;
+                // re-render table with next page
+                self.renderTable(self.paginatedStorage[upcomingPage], upcomingPage, total, counterStart);
+            } // End enabled condition
+        } // Next/Prev page end
     });
 };
