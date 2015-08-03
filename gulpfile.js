@@ -9,7 +9,7 @@ var DEST = 'build/';
 
 gulp.task('minify-scripts', function() {
   return gulp.src('scripts/*.js')
-    // This will minify and rename to foo.min.js
+    .pipe(gulp.dest(DEST + "js"))
     .pipe(uglify())
     .pipe(rename({ extname: '.min.js' }))
     .pipe(gulp.dest(DEST + "js"));
