@@ -72,7 +72,8 @@ StationRidershipWidget.prototype.organizeTable = function(ridershipByStation) {
     var paginated,
         startPage,
         totalPages,
-        ridershipSorted;
+        ridershipSorted,
+        tableRenderer;
 
     // Store the original data
     this.originalData = ridershipByStation;
@@ -81,7 +82,7 @@ StationRidershipWidget.prototype.organizeTable = function(ridershipByStation) {
     ridershipSorted = this.sortingRidership(ridershipByStation, "rides", "descending");
 
     // Get an object which contains arrays corresponding to pages
-    var StationAnalysisPaginator = new PaginationWidget();
+    var StationAnalysisPaginator = new PaginationWidget("#table-1-ridership");
     StationAnalysisPaginator.begin(10);
     // Paginated object retrived
     paginated = StationAnalysisPaginator.paginator(ridershipSorted);
@@ -97,7 +98,10 @@ StationRidershipWidget.prototype.organizeTable = function(ridershipByStation) {
 
     // Render the table and navigation
     this.renderNavigator(paginated['pages'], startPage);
-    this.renderTable(paginated[startPage], startPage, totalPages, 1);
+    // Initialize table render
+    renderRidership = new TableRenderer("ridershipTable", '#ridershipTemplate', '.ridershipTableContainer', '.ridershipNavigation');
+    this.renderRidership = renderRidership;
+    renderRidership.renderTable(paginated[startPage], startPage, totalPages, 1);
     this.onSort();
     this.getPage(totalPages);
 
@@ -155,7 +159,7 @@ StationRidershipWidget.prototype.renderTable = function(dataToRender, page, tota
 
     counter = counterStart;
     data = {
-        ridershipTable: dataToRender,
+        "ridershipTable": dataToRender,
         count : function () {
             return function (text, render) {
                 // note that counter is in the enclosing scope
@@ -257,7 +261,8 @@ StationRidershipWidget.prototype.getPage = function(totalPages) {
             currentPage,
             upcomingPage,
             counterStart,
-            isEnabled;
+            isEnabled,
+            reRenderRidership;
         // Check if end button or number
         isButton = $(event.currentTarget).hasClass("pagination-end-button");
         isActive = $(event.currentTarget).hasClass("active");
@@ -271,7 +276,8 @@ StationRidershipWidget.prototype.getPage = function(totalPages) {
             // restart counter for ranking to reflect current page
             counterStart = ((pageSelected - 1) * self.pageSize) + 1;
             // re-render table with next page
-            self.renderTable(self.paginatedStorage[pageSelected], pageSelected, total, counterStart);
+            reRenderRidership = self.renderRidership;
+            reRenderRidership.renderTable(self.paginatedStorage[pageSelected], pageSelected, total, counterStart);
             self.onSort();
             // End Page Button condition
         } else {
@@ -293,7 +299,8 @@ StationRidershipWidget.prototype.getPage = function(totalPages) {
                 // Render the upcoming page once it has been identified
                 counterStart = ((upcomingPage - 1) * self.pageSize) + 1;
                 // re-render table with next page
-                self.renderTable(self.paginatedStorage[upcomingPage], upcomingPage, total, counterStart);
+                reRenderRidership = self.renderRidership;
+                reRenderRidership.renderTable(self.paginatedStorage[upcomingPage], upcomingPage, total, counterStart);
             } // End enabled condition
         } // Next/Prev page end
     });

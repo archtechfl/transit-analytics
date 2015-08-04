@@ -1,5 +1,6 @@
-function PaginationWidget() {
+function PaginationWidget(widgetSelector) {
     // Creating the pagination widget
+    this.widgetSelector = widgetSelector; // Top level CSS selector for the widget being paginated
 };
 
 PaginationWidget.prototype.begin = function (pageSize) {
