@@ -81,7 +81,10 @@ StationRidershipWidget.prototype.organizeTable = function(ridershipByStation) {
     ridershipSorted = this.sortingRidership(ridershipByStation, "rides", "descending");
 
     // Get an object which contains arrays corresponding to pages
-    paginated = this.paginate(ridershipSorted);
+    var StationAnalysisPaginator = new PaginationWidget();
+    StationAnalysisPaginator.begin(10);
+    // Paginated object retrived
+    paginated = StationAnalysisPaginator.paginator(ridershipSorted);
 
     // Store paginated sets as global variable
     this.paginatedStorage = paginated;
@@ -240,11 +243,11 @@ StationRidershipWidget.prototype.getPage = function(totalPages) {
 
     total = totalPages;
     self = this;
-    allPageNumberSelector = ".ridershipNavigation .ridership-page-button";
+    allPageNumberSelector = ".ridershipNavigation .pagination-page-button";
     activeSelector = allPageNumberSelector + ".active";
     currentPageSelector = activeSelector + " .page-number";
     // Listeners for navigation bar
-    $(".ridershipNavigation").on("click", ".ridership-nav-button", function (event){
+    $(".ridershipNavigation").on("click", ".pagination-nav-button", function (event){
         event.preventDefault();
         // Check for prev/next or page
         var isButton,
@@ -256,7 +259,7 @@ StationRidershipWidget.prototype.getPage = function(totalPages) {
             counterStart,
             isEnabled;
         // Check if end button or number
-        isButton = $(event.currentTarget).hasClass("ridership-end-button");
+        isButton = $(event.currentTarget).hasClass("pagination-end-button");
         isActive = $(event.currentTarget).hasClass("active");
         if (!isButton && !isActive){
             /* 

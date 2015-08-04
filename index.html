@@ -7,6 +7,7 @@
 	<script src="../common/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="../common/underscore/underscore.min.js"></script>
 	<script src="../common/mustache/mustache.min.js"></script>
+	<script src="build/js/PaginationWidget.js"></script>
 	<script src="build/js/StationAnalysis.min.js"></script>
 	<script src="build/js/StationLocationWidget.min.js"></script>
 	<script src="init.js"></script>
@@ -32,11 +33,11 @@
 	</script>
 	<script id="stationRidershipNavTemplate" type="x-tmpl-mustache">
 	  	<ul class="pagination">
-	    	<li class="previous-nav ridership-end-button ridership-nav-button"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+	    	<li class="previous-nav pagination-end-button pagination-nav-button"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
 				{{#pages}}
-				<li class="page-{{.}} ridership-page-button ridership-nav-button"><a href="#"><span class="page-number">{{.}}</span><span class="sr-only">Page {{.}}</span></a></li>
+				<li class="page-{{.}} pagination-page-button pagination-nav-button"><a href="#"><span class="page-number">{{.}}</span><span class="sr-only">Page {{.}}</span></a></li>
 				{{/pages}}
-			<li class="next-nav ridership-end-button ridership-nav-button"><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+			<li class="next-nav pagination-end-button pagination-nav-button"><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 		</ul>
 	</script>
 	<script id="stationListingTemplate" type="x-tmpl-mustache">
